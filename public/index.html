@@ -1,0 +1,20 @@
+<!doctype HTML>
+<html lang="en">
+  <head>
+    <title>Fortune Rookie Fantasy</title>
+  </head>
+  <body>
+
+    <script src="/js/lib/jquery.min.js"></script>
+    <script src="/js/lib/underscore.min.js"></script>
+    <script src="/js/lib/backbone.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+      var socket = io.connect();
+      socket.on('nate', function(data){
+        console.log(data);
+      });
+    </script>
+  </body>
+</html>
