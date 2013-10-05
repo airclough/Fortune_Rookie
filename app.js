@@ -30,10 +30,10 @@ if ('development' == app.get('env')) {
 var server = http.createServer(app)
   , io     = require('socket.io').listen(server);
 
-io.sockets.on('connection', function(socket){
-  socket.on('sweet', function(data){
-    console.log(data);
-  });
-});
+// io.sockets.on('connection', function(socket){
+//   socket.on('sweet', function(data){
+//     console.log(data);
+//   });
+// });
 
 server.listen(3000);
