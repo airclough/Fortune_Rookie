@@ -30,11 +30,11 @@ if ('development' == app.get('env')) {
 var server = http.createServer(app)
   , io     = require('socket.io').listen(server);
 
-// io.sockets.on('connection', function(socket){
-//   socket.on('sweet', function(data){
-//     console.log(data);
-//   });
-// });
+io.sockets.on('connection', function(socket){
+  socket.on('sweet', function(data) {
+    socket.emit('fortune', data);
+  });
+});
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
