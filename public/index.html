@@ -2,14 +2,54 @@
 <html lang="en">
   <head>
     <title>Fortune Rookie Fantasy</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/draft.css">
   </head>
   <body>
+    <div class="content"></div>
 
+    <script id="draftAppView" type="text/template">
+      <div class="draft cf">
+        <div class="half">
+          <div class="heading">Draft Board</div>
+          <form id="lineupForm"></form>
+        </div>
+        <div class="half">
+          <div class="filterContainer cf">
+            <div class="heading">Players</div>
+            <ul class="roundFilter">
+              <li id="U"><span>U</span></li>
+              <li id="7"><span>7</span></li>
+              <li id="6"><span>6</span></li>
+              <li id="5"><span>5</span></li>
+              <li id="4"><span>4</span></li>
+              <li id="3"><span>3</span></li>
+              <li id="2"><span>2</span></li>
+              <li id="1"><span class="warning">1</span></li>
+            </ul>
+          </div>
+          <div class="playersListContainer">
+            <ul class="playersList"></ul>
+          </div>
+        </div>
+      </div>
+    </script>
+    <script id="playerModelView" type="text/template">
+      <span><%= name.first %> <%= name.last %> - <%= draft.pick %></span>
+    </script>
+    <script id="loading" type="text/template"></script>
     <script src="/js/lib/jquery.min.js"></script>
     <script src="/js/lib/underscore.min.js"></script>
     <script src="/js/lib/backbone.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/models.js"></script>
+    <script src="/js/collections.js"></script>
+    <script src="/js/views/draftAppView.js"></script>
+    <script src="/js/views/playerCollectionView.js"></script>
+    <script src="/js/router.js"></script>
     <script>
       $(document).ready(function() {
         App.set();

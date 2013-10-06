@@ -31,6 +31,11 @@ if ('development' == app.get('env')) {
 require('./_migrations/teams');
 require('./_migrations/players');
 
+// players api
+var players = require('./routes/players');
+app.get('/api/players', players.readAll);
+
+// server
 var server = http.createServer(app)
   , io     = require('socket.io').listen(server);
 

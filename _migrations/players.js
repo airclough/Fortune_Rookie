@@ -69,8 +69,8 @@ function sportsData(team, callback) {
             position: player.position,
             number  : player.jersey_number,
             draft   : {
-              round  : player.draft_round,
-              pick   : player.draft_pick,
+              round  : parseInt(player.draft_round) || 8,
+              pick   : parseInt(player.draft_pick),
               team   : player.draft_team,
               college: player.college
             },

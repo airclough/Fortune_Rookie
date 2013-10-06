@@ -5,10 +5,9 @@
     Views      : {},
     Router     : {},
     Templates  : {},
-    Session    : null,
-    Events     : _.extend( {}, Backbone.Events),
+    Events     : _.extend({}, Backbone.Events),
     set        : function() {
-      App.Router = new App.Router();
+      this.Router = new App.Router();
       Backbone.history.start();
     }
   };
