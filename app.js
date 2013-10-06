@@ -35,6 +35,10 @@ require('./_migrations/players');
 var players = require('./routes/players');
 app.get('/api/players', players.readAll);
 
+// draft api
+var draft = require('./routes/draft');
+app.post('/api/draft', draft.create);
+
 // server
 var server = http.createServer(app)
   , io     = require('socket.io').listen(server);

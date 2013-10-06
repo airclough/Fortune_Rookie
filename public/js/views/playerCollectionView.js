@@ -17,6 +17,9 @@
   App.Views.PlayerModelView = Backbone.View.extend({
     tagName   : 'li',
     template  : _.template($('#playerModelView').html()),
+    events    : {
+      'click': 'addPlayer'
+    },
     initialize: function() {
       this.sub();
       this.render();
@@ -27,6 +30,9 @@
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       return this;
+    },
+    addPlayer: function(e) {
+      App.Events.trigger('addPlayer', this.model.toJSON());
     },
     toggleVisible: function(round) {
       this.$el.toggleClass( 'hide', this.isVisible(round));

@@ -41,14 +41,3 @@ body {
   color: #222;
   background: #f5f5f5;
 }
-
-/* input */
-::-webkit-input-placeholder {
-  color: #ccc;
-}
-::-moz-placeholder {
-  color: #ccc;
-}
-:-ms-input-placeholder {
-  color: #ccc;
-}

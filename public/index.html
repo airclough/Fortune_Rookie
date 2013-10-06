@@ -13,14 +13,13 @@
     <script id="draftAppView" type="text/template">
       <div class="draft cf">
         <div class="half">
-          <div class="heading">Draft Board</div>
           <form id="lineupForm"></form>
         </div>
         <div class="half">
           <div class="filterContainer cf">
-            <div class="heading">Players</div>
+            <div class="heading">Draft Board</div>
             <ul class="roundFilter">
-              <li id="U"><span>U</span></li>
+              <li id="8"><span>U</span></li>
               <li id="7"><span>7</span></li>
               <li id="6"><span>6</span></li>
               <li id="5"><span>5</span></li>
@@ -37,6 +36,7 @@
       </div>
     </script>
     <script id="lineupForm" type="text/template">
+      <input type="text" id="teamName" placeholder="ENTER TEAM NAME" autofocus>
       <div class="pointsCap">
         <div class="percent"></div>
       </div>
@@ -59,8 +59,9 @@
         <%= position %>
       </div>
       <div class="name">
-        <%= player.name.first %> <%= player.name.last %> <span class="scratch">X</span>
+        <%= player.name.first %> <%= player.name.last %>
       </div>
+      <div class="scratch">X</div>
     </div>
   </script>
   <script id="emptySlot" type="text/template">
@@ -74,7 +75,9 @@
     </div>
   </script>
     <script id="playerModelView" type="text/template">
-      <span><%= name.first %> <%= name.last %> - <%= draft.pick %></span>
+      <div class="pick"><%= draft.pick %></div>
+      <div><%= name.first %> <%= name.last %> - <%= position %></div>
+      <div class="points"><%= points %></div>
     </script>
     <script id="loading" type="text/template"></script>
     <script src="/js/lib/jquery.min.js"></script>

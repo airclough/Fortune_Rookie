@@ -6,7 +6,7 @@
     }
   });
   App.Models.LineupModel = Backbone.Model.extend({
-    urlRoot: '/api/lineups',
+    urlRoot: '/api/draft',
     idAttribute: '_id',
     defaults: {
       teamName  : null,

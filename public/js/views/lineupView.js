@@ -2,13 +2,22 @@
   App.Views.LineupView = Backbone.View.extend({
     el: '#lineupForm',
     template: _.template($('#lineupForm').html()),
+    events  : {
+      'keyup #teamName': 'teamName',
+      'submit'         : 'submit'
+    },
     initialize: function() {
       this.sub();
       this.render();
       this.subViews();
     },
     sub: function() {
+      this.$el.on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', this.transitionEnd);
 
+      this.model.on('invalid', this.invalid, this);
+      App.Events.on('invalidLineup', this.invalid, this);
+      App.Events.on('addPlayer', this.addPlayer, this);
+      App.Events.on('scratchPlayer', this.scratchPlayer, this);
     },
     render: function() {
       this.$el.html(this.template());
@@ -54,9 +63,8 @@
         , pointsCap = this.model.get('pointsCap') - pointHit;
 
       if(this.model.set('pointsCap', pointsCap, { validate: true, silent: true })) {
-        if(this.model.set('player', player)) {
+        if(model.set('player', player)) {
           this.pointsCapView.model.set('pointsCap', pointsCap);
-          console.log(this.model.get('players'));
         }
       }
     },
@@ -66,21 +74,21 @@
 
       var rb1       = this.model.get('players')['RB1']
         , rb2       = this.model.get('players')['RB2']
-        , pointsHit = this.model.get('pointsCap') - player.points;
+        , pointsHit = this.model.get('pointsCap') - player.points
+        , that      = this;
 
-      if(!rb1) {
+      if(!(rb1.get('player'))) {
         openSlot(rb1);
-      } else if(!rb2) {
+      } else if(!(rb2.get('player'))) {
         openSlot(rb2);
       } else {
         return console.log('No empty slots!');
       }
 
       function openSlot(pos) {
-        if(this.model.set('pointsCap', pointsHit, { validate: true, silent: true })) {
+        if(that.model.set('pointsCap', pointsHit, { validate: true, silent: true })) {
           if(pos.set('player', player)) {
-            this.pointsCapView.model.set('pointsCap', pointsHit);
-            console.log( this.model.get('players'));
+            that.pointsCapView.model.set('pointsCap', pointsHit);
           }
         }
       }
@@ -91,32 +99,32 @@
 
       var wr1       = this.model.get('players')['WR1']
         , wr2       = this.model.get('players')['WR2']
-        , pointsHit = this.model.get('pointsCap') - player.points;
+        , pointsHit = this.model.get('pointsCap') - player.points
+        , that      = this;
 
-      if(!wr1) {
+      if(!(wr1.get('player'))) {
         openSlot(wr1);
-      } else if(!wr2) {
+      } else if(!(wr2.get('player'))) {
         openSlot(wr2);
       } else {
         return console.log('No empty slots!');
       }
 
       function openSlot(pos) {
-        if(this.model.set('pointsCap', pointsHit, { validate: true, silent: true })) {
+        if(that.model.set('pointsCap', pointsHit, { validate: true, silent: true })) {
           if(pos.set('player', player)) {
-            this.pointsCapView.model.set('pointsCap', pointsHit);
-            console.log( this.model.get('players'));
+            that.pointsCapView.model.set('pointsCap', pointsHit);
           }
         }
       }
     },
     doubleCheck: function(player) {
       if( player.position.match(/RB/) || player.position.match(/WR/) ) {
-        if( this.model.get('players')[player.position + '1'].get('player')._id === player._id) { return true; }
-        if( this.model.get('players')[player.position + '2'].get('player')._id === player._id) { return true; }
+        if( this.model.get('players')[player.position + '1'].id === player.id) { return true; }
+        if( this.model.get('players')[player.position + '2'].id === player.id) { return true; }
       } else {
         if( this.model.get('players')[player.position].get('player')) {
-          if( this.model.get('players')[player.position].get('player')._id === player._id) {
+          if( this.model.get('players')[player.position].get('player').id === player.id) {
             return true;
           }
         }
@@ -126,13 +134,12 @@
     },
     scratchPlayer: function(attrs) {
       var players   = this.model.get('players')
-        , pointsCap = this.model.get('pointsCap') + attrs.player.salary
+        , pointsCap = this.model.get('pointsCap') + attrs.player.points
         , pos       = attrs.pos;
 
-      if( players[pos].set('player', null)) {
+      if(players[pos].set('player', null)) {
         this.model.set('pointsCap', pointsCap, { validate: true, silent: true });
         this.pointsCapView.model.set('pointsCap', pointsCap);
-        console.log('scratched!');
       }
     },
     teamName: function() {
@@ -149,7 +156,7 @@
       console.log(opts);
 
       $('.btn').removeClass('spin');
-      $('.validate').html(App.Views.LineupCardView.validateTemplate( { message: 'Thanks ' + res.teamName } ) );
+      App.Router.navigate('d3', { trigger: true });
     },
     error: function( model, xhr, opts ) {
       console.log(model);
@@ -162,21 +169,17 @@
     submit: function( e ) {
       e.preventDefault();
 
-      // validate lineup card
-      if( this.validateName() ) { return; }
-      if( this.validateLineup() ) { return; }
-
       this.$el.find( '.btn' ).addClass( 'spin' );
 
       var team = {
         teamName: this.model.get( 'teamName' ),
-        points  : this.model.get( 'salaryCap' ),
-        QB      : this.model.get( 'players' )[ 'QB' ].get( 'player' )._id,
-        RB1     : this.model.get( 'players' )[ 'RB1' ].get( 'player' )._id,
-        RB2     : this.model.get( 'players' )[ 'RB2' ].get( 'player' )._id,
-        WR1     : this.model.get( 'players' )[ 'WR1' ].get( 'player' )._id,
-        WR2     : this.model.get( 'players' )[ 'WR2' ].get( 'player' )._id,
-        TE      : this.model.get( 'players' )[ 'TE' ].get( 'player' )._id
+        points  : this.model.get( 'pointsCap' ),
+        QB      : this.model.get( 'players' )[ 'QB' ].get( 'player' ),
+        RB1     : this.model.get( 'players' )[ 'RB1' ].get( 'player' ),
+        RB2     : this.model.get( 'players' )[ 'RB2' ].get( 'player' ),
+        WR1     : this.model.get( 'players' )[ 'WR1' ].get( 'player' ),
+        WR2     : this.model.get( 'players' )[ 'WR2' ].get( 'player' ),
+        TE      : this.model.get( 'players' )[ 'TE' ].get( 'player' )
       };
 
       this.model.save( team, {
@@ -190,7 +193,7 @@
   App.Views.PointsCapView = Backbone.View.extend({
     el      : '.percent',
     template: function() {
-      return '<span>$' + this.model.get('pointsCap') + '</span>'
+      return '<span>' + this.model.get('pointsCap') + '</span>'
     },
     initialize: function() {
       this.sub();

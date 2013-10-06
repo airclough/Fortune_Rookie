@@ -77,7 +77,8 @@ function sportsData(team, callback) {
             vitals: {
               height: player.height,
               weight: player.weight
-            }
+            },
+            points: Math.round(2000/(parseInt(player.draft_pick) * 0.75)) || 1
           });
         }
       }
