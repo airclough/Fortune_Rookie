@@ -1,4 +1,4 @@
-<!doctype HTML>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Fortune Rookie Fantasy</title>
@@ -36,6 +36,43 @@
         </div>
       </div>
     </script>
+    <script id="lineupForm" type="text/template">
+      <div class="pointsCap">
+        <div class="percent"></div>
+      </div>
+      <ul class="slots">
+        <li id="QB"></li>
+        <li id="RB1"></li>
+        <li id="RB2"></li>
+        <li id="WR1"></li>
+        <li id="WR2"></li>
+        <li id="TE"></li>
+      </ul>
+      <div class="submit cf">
+        <button type="submit" class="btn"><span>submit</span></button>
+        <div class="validate"></div>
+      </div>
+    </script>
+    <script id="filledSlot" type="text/template">
+    <div class="player">
+      <div class="position">
+        <%= position %>
+      </div>
+      <div class="name">
+        <%= player.name.first %> <%= player.name.last %> <span class="scratch">X</span>
+      </div>
+    </div>
+  </script>
+  <script id="emptySlot" type="text/template">
+    <div class="player">
+      <div class="position">
+        <%= position %>
+      </div>
+      <div class="name faded">
+        select a <%= position %>
+      </div>
+    </div>
+  </script>
     <script id="playerModelView" type="text/template">
       <span><%= name.first %> <%= name.last %> - <%= draft.pick %></span>
     </script>
@@ -49,6 +86,7 @@
     <script src="/js/collections.js"></script>
     <script src="/js/views/draftAppView.js"></script>
     <script src="/js/views/playerCollectionView.js"></script>
+    <script src="/js/views/lineupView.js"></script>
     <script src="/js/router.js"></script>
     <script>
       $(document).ready(function() {

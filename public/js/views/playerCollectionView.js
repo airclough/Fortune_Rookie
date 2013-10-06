@@ -28,7 +28,7 @@
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     },
-     toggleVisible: function(round) {
+    toggleVisible: function(round) {
       this.$el.toggleClass( 'hide', this.isVisible(round));
     },
     isVisible: function(round) {
