@@ -1,12 +1,12 @@
 ;(function(){
   App.Router = Backbone.Router.extend({
     routes: {
-      ''     : 'index',
-      'draft': 'draft',
+      ''     : 'draft',
       'd3'   : 'd3'
     },
     index: function() {
       console.log('fortune rookie');
+      App.Templates.Landing = new App.Views.Landing();
     },
     draft: function() {
       console.log('draft');
