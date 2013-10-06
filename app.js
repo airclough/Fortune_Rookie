@@ -27,6 +27,9 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+// migrations
+require('./_migrations/teams');
+
 var server = http.createServer(app)
   , io     = require('socket.io').listen(server);
 
