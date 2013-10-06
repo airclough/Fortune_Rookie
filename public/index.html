@@ -11,10 +11,8 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/app.js"></script>
     <script>
-      var socket = io.connect();
-
-      socket.on('fortune', function(data){
-        console.log(data);
+      $(document).ready(function() {
+        App.set();
       });
     </script>
   </body>

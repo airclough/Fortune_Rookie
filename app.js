@@ -29,6 +29,7 @@ if ('development' == app.get('env')) {
 
 // migrations
 require('./_migrations/teams');
+require('./_migrations/players');
 
 var server = http.createServer(app)
   , io     = require('socket.io').listen(server);

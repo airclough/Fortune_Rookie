@@ -1,5 +1,5 @@
 /**
- *  teams collection
+ *  nfl teams collection
  */
 
 var request       = require( 'request' )
@@ -18,7 +18,7 @@ var mongo = function(callback) {
     results.mongo = mongo;
     return callback();
   });
-}
+};
 
 var sportsData = function(callback) {
   url = "http://api.sportsdatallc.org/nfl-t1/teams/hierarchy.xml?api_key=dqsavf3zz453hhs9ewe6gqdz";
@@ -26,7 +26,7 @@ var sportsData = function(callback) {
   request(url, function(err, res, xml) {
     if(err) { return handler( err ) }
 
-    xml2js(xml, function(err, obj){
+    xml2js(xml, function(err, obj) {
       var afc = obj.league.conference[0].division
         , nfc = obj.league.conference[1].division
 
@@ -50,7 +50,7 @@ var sportsData = function(callback) {
 
     return callback();
   });
-}
+};
 
 // init
 // var fns = [mongo, sportsData];
@@ -67,7 +67,7 @@ function async(fn) {
 }
 
 function final() {
-  console.log('seeding mongo..');
+  console.log('MongoDB seeding..');
 
   results.mongo.collection('teams', function(err, collection){
     if(err) { return handler(err); }
@@ -76,7 +76,7 @@ function final() {
       if(err) { return handler(err); }
 
       results.mongo.close();
-      return console.log('mongo seeded.')
+      return console.log('MongoDB seeded.')
     });
   });
 }
